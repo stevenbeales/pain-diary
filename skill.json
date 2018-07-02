@@ -1,0 +1,52 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "summary": "Helps people with Fibromyalgia manage their symptoms",
+          "examplePhrases": [
+            "Alexa open pain diary",
+            "Alexa tell pain diary to record my pain score",
+            "Alexa ask pain diary for my pain score"
+          ],
+          "keywords": [
+            "pain",
+            "depression",
+            "fatigue"
+          ],
+          "name": "pain diary",
+          "description": "A diary to record pain, fatigue and mental health symptoms"
+        }
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "No Testing Instructions.",
+      "category": "HEALTH_AND_FITNESS",
+      "distributionCountries": []
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "sourceDir": "lambda/custom"
+        }
+      }
+    },
+    "manifestVersion": "1.0",
+    "permissions": [
+      {
+        "name": "alexa:devices:all:address:country_and_postal_code:read"
+      }
+    ],
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "locales": {
+        "en-US": {
+          "privacyPolicyUrl": "https://pain-diary.herokuapp.com/privacy"
+        }
+      },
+      "isExportCompliant": true,
+      "containsAds": false,
+      "isChildDirected": false,
+      "usesPersonalInfo": true
+    }
+  }
+}

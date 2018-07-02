@@ -3,7 +3,7 @@
 ## Steps
 
 1. Fork [the repo](https://github.com/stevenbeales/pain-diary)
-2. Grab dependencies: 
+2. Grab dependencies:
 3. Make sure everything is working:
 4. Make your changes
 5. Test your changes
