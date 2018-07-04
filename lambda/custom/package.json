@@ -1,16 +1,23 @@
 {
   "name": "pain-diary",
   "version": "1.0.0",
-  "description": "",
+  "private": true,
+  "description": "Alexa skill to record pain scores in diary",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "keywords": [
+    "alexa",
+    "skill",
+    "trivia"
+  ],
+  "author": "Steven Beales",
   "license": "ISC",
   "dependencies": {
     "ask-sdk-core": "^2.0.0",
     "ask-sdk-model": "^1.0.0",
+    "ask-sdk-dynamodb-persistence-adapter": "^2.0.7",
     "i18next": "^10.6.0",
     "i18next-sprintf-postprocessor": "^0.2.2"
   }

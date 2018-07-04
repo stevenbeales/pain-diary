@@ -15,7 +15,9 @@
             "fatigue"
           ],
           "name": "pain diary",
-          "description": "A diary to record pain, fatigue and mental health symptoms"
+          "smallIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/49d8/3df898e049734f84bf0a417055ef207c/APP_ICON?versionId=z1AbF5_R8Lrn7_zR7MXOYa0YSTh0eSUM&AWSAccessKeyId=AKIAIEYXX6DHY7O4XWMA&Expires=1530761793&Signature=73iBsleICwHA8D6rArIjZZphw2s%3D",
+          "description": "A diary to record pain, fatigue and mental health symptoms",
+          "largeIconUri": "https://s3.amazonaws.com/CAPS-SSE/echo_developer/f43e/dc85053e1a884ebc9fc9a3ae15d01161/APP_ICON_LARGE?versionId=c8RqAZID3yPJ5aoOq1203WKd8OWorr3r&AWSAccessKeyId=AKIAIEYXX6DHY7O4XWMA&Expires=1530761793&Signature=LJWyXg5%2BjwCgtDlSRxSFlLpKamg%3D"
         }
       },
       "isAvailableWorldwide": true,
@@ -26,8 +28,9 @@
     "apis": {
       "custom": {
         "endpoint": {
-          "sourceDir": "lambda/custom"
-        }
+          "uri": "arn:aws:lambda:us-east-1:826318031639:function:aws-serverless-repository-alexaskillskitnodejstriv-7Z6EFANON4NJ"
+        },
+        "interfaces": []
       }
     },
     "manifestVersion": "1.0",
@@ -40,6 +43,7 @@
       "allowsPurchases": false,
       "locales": {
         "en-US": {
+          "termsOfUseUrl": "https://pain-diary.herokuapp.com/terms",
           "privacyPolicyUrl": "https://pain-diary.herokuapp.com/privacy"
         }
       },

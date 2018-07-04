@@ -17,11 +17,11 @@
       "in_skill_products": [],
       "resources": {
         "manifest": {
-          "eTag": "2add3b566c7e379b905f73102009000a"
+          "eTag": "1118c0626cf060c5496846f14403941a"
         },
         "interactionModel": {
           "en-US": {
-            "eTag": "066cb7b9a3cedf09ba3d8e69747e3eab"
+            "eTag": "ff677ff3daa4edecc7f5b92866c9f71f"
           }
         }
       }
