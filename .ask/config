@@ -27,7 +27,7 @@
         "lambda": [
           {
             "arn": "arn:aws:lambda:us-east-1:826318031639:function:aws-serverless-repository-alexaskillskitnodejstriv-7Z6EFANON4NJ",
-            "revisionId": "79231ef6-4d78-4e70-bb6d-c6f448d8e099"
+            "revisionId": "e6d575ab-9357-4536-a5bd-0dc3f7779ec5"
           }
         ]
       }

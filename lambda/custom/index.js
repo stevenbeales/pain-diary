@@ -6,22 +6,24 @@ const questions = require('./questions');
 const i18n = require('i18next');
 const sprintf = require('i18next-sprintf-postprocessor');
 
+module.exports = populateeProQuestions;
+
 const ANSWER_COUNT = 5;
 const EPRO_LENGTH = 7;
 
 function populateeProQuestions(translatedQuestions) {
-  const eProQuestions = [];
+  //const eProQuestions = [];
   //const indexList = [];
   let index = translatedQuestions.length;
   if (EPRO_LENGTH > index) {
     throw new Error('Invalid ePro Length.');
   }
 
-  for (let i = 0; i < translatedQuestions.length; i += 1) {
+  /* for (let i = 0; i < translatedQuestions.length; i += 1) {
     eProQuestions.push(i);
   }
 
-  /*for (let j = 0; j < EPRO_LENGTH; j += 1) {
+ for (let j = 0; j < EPRO_LENGTH; j += 1) {
     const rand = Math.floor(Math.random() * index);
     index -= 1;
 
@@ -30,7 +32,7 @@ function populateeProQuestions(translatedQuestions) {
     indexList[rand] = temp;
     eProQuestions.push(indexList[index]);
   }*/
-  return eProQuestions;
+  return translatedQuestions;
 }
 
 function populateRoundAnswers(
@@ -179,12 +181,12 @@ function startePro(newePro, handlerInput) {
     : '';
   const translatedQuestions = requestAttributes.t('QUESTIONS');
   const eProQuestions = populateeProQuestions(translatedQuestions);
-  //const correctAnswerIndex = Math.floor(Math.random() * (ANSWER_COUNT));
+  const correctAnswerIndex = Math.floor(Math.random() * (ANSWER_COUNT));
 
   const roundAnswers = populateRoundAnswers(
     eProQuestions,
     0,
-   // correctAnswerIndex,
+    correctAnswerIndex,
     translatedQuestions
   );
   const currentQuestionIndex = 0;
