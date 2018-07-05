@@ -6,41 +6,41 @@ const questions = require('./questions');
 const i18n = require('i18next');
 const sprintf = require('i18next-sprintf-postprocessor');
 
-const ANSWER_COUNT = 4;
-const GAME_LENGTH = 5;
+const ANSWER_COUNT = 5;
+const EPRO_LENGTH = 7;
 
-function populateGameQuestions(translatedQuestions) {
-  const gameQuestions = [];
-  const indexList = [];
+function populateeProQuestions(translatedQuestions) {
+  const eProQuestions = [];
+  //const indexList = [];
   let index = translatedQuestions.length;
-  if (GAME_LENGTH > index) {
-    throw new Error('Invalid Game Length.');
+  if (EPRO_LENGTH > index) {
+    throw new Error('Invalid ePro Length.');
   }
 
   for (let i = 0; i < translatedQuestions.length; i += 1) {
-    indexList.push(i);
+    eProQuestions.push(i);
   }
 
-  for (let j = 0; j < GAME_LENGTH; j += 1) {
+  /*for (let j = 0; j < EPRO_LENGTH; j += 1) {
     const rand = Math.floor(Math.random() * index);
     index -= 1;
 
     const temp = indexList[index];
     indexList[index] = indexList[rand];
     indexList[rand] = temp;
-    gameQuestions.push(indexList[index]);
-  }
-  return gameQuestions;
+    eProQuestions.push(indexList[index]);
+  }*/
+  return eProQuestions;
 }
 
 function populateRoundAnswers(
-  gameQuestionIndexes,
+  eProQuestionIndexes,
   correctAnswerIndex,
-  correctAnswerTargetLocation,
+ // correctAnswerTargetLocation,
   translatedQuestions
 ) {
   const answers = [];
-  const translatedQuestion = translatedQuestions[gameQuestionIndexes[correctAnswerIndex]];
+  const translatedQuestion = translatedQuestions[eProQuestionIndexes[correctAnswerIndex]];
   const answersCopy = translatedQuestion[Object.keys(translatedQuestion)[0]].slice();
   let index = answersCopy.length;
 
@@ -49,22 +49,22 @@ function populateRoundAnswers(
   }
 
   // Shuffle the answers, excluding the first element which is the correct answer.
-  for (let j = 1; j < answersCopy.length; j += 1) {
+ /* for (let j = 1; j < answersCopy.length; j += 1) {
     const rand = Math.floor(Math.random() * (index - 1)) + 1;
     index -= 1;
 
     const swapTemp1 = answersCopy[index];
     answersCopy[index] = answersCopy[rand];
     answersCopy[rand] = swapTemp1;
-  }
+  } */
 
   // Swap the correct answer into the target location
   for (let i = 0; i < ANSWER_COUNT; i += 1) {
     answers[i] = answersCopy[i];
   }
-  const swapTemp2 = answers[0];
+ /* const swapTemp2 = answers[0];
   answers[0] = answers[correctAnswerTargetLocation];
-  answers[correctAnswerTargetLocation] = swapTemp2;
+  answers[correctAnswerTargetLocation] = swapTemp2;*/
   return answers;
 }
 
@@ -90,7 +90,7 @@ function handleUserGuess(userGaveUp, handlerInput) {
   let speechOutputAnalysis = '';
 
   const sessionAttributes = attributesManager.getSessionAttributes();
-  const gameQuestions = sessionAttributes.questions;
+  const eProQuestions = sessionAttributes.questions;
   let correctAnswerIndex = parseInt(sessionAttributes.correctAnswerIndex, 10);
   let currentScore = parseInt(sessionAttributes.score, 10);
   let currentQuestionIndex = parseInt(sessionAttributes.currentQuestionIndex, 10);
@@ -115,13 +115,13 @@ function handleUserGuess(userGaveUp, handlerInput) {
     );
   }
 
-  // Check if we can exit the game session after GAME_LENGTH questions (zero-indexed)
-  if (sessionAttributes.currentQuestionIndex === GAME_LENGTH - 1) {
+  // Check if we can exit the ePro session after EPRO_LENGTH questions (zero-indexed)
+  if (sessionAttributes.currentQuestionIndex === EPRO_LENGTH - 1) {
     speechOutput = userGaveUp ? '' : requestAttributes.t('ANSWER_IS_MESSAGE');
     speechOutput += speechOutputAnalysis + requestAttributes.t(
-      'GAME_OVER_MESSAGE',
+      'EPRO_OVER_MESSAGE',
       currentScore.toString(),
-      GAME_LENGTH.toString()
+      EPRO_LENGTH.toString()
     );
 
     return responseBuilder
@@ -130,9 +130,9 @@ function handleUserGuess(userGaveUp, handlerInput) {
   }
   currentQuestionIndex += 1;
   correctAnswerIndex = Math.floor(Math.random() * (ANSWER_COUNT));
-  const spokenQuestion = Object.keys(translatedQuestions[gameQuestions[currentQuestionIndex]])[0];
+  const spokenQuestion = Object.keys(translatedQuestions[eProQuestions[currentQuestionIndex]])[0];
   const roundAnswers = populateRoundAnswers(
-    gameQuestions,
+    eProQuestions,
     currentQuestionIndex,
     correctAnswerIndex,
     translatedQuestions
@@ -153,42 +153,42 @@ function handleUserGuess(userGaveUp, handlerInput) {
     + requestAttributes.t('SCORE_IS_MESSAGE', currentScore.toString())
     + repromptText;
 
-  const translatedQuestion = translatedQuestions[gameQuestions[currentQuestionIndex]];
+  const translatedQuestion = translatedQuestions[eProQuestions[currentQuestionIndex]];
 
   Object.assign(sessionAttributes, {
     speechOutput: repromptText,
     repromptText,
     currentQuestionIndex,
     correctAnswerIndex: correctAnswerIndex + 1,
-    questions: gameQuestions,
+    questions: eProQuestions,
     score: currentScore,
     correctAnswerText: translatedQuestion[Object.keys(translatedQuestion)[0]][0]
   });
 
   return responseBuilder.speak(speechOutput)
     .reprompt(repromptText)
-    .withSimpleCard(requestAttributes.t('GAME_NAME'), repromptText)
+    .withSimpleCard(requestAttributes.t('EPRO_NAME'), repromptText)
     .getResponse();
 }
 
-function startGame(newGame, handlerInput) {
+function startePro(newePro, handlerInput) {
   const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
-  let speechOutput = newGame
-    ? requestAttributes.t('NEW_GAME_MESSAGE', requestAttributes.t('GAME_NAME'))
-      + requestAttributes.t('WELCOME_MESSAGE', GAME_LENGTH.toString())
+  let speechOutput = newePro
+    ? requestAttributes.t('NEW_EPRO_MESSAGE', requestAttributes.t('EPRO_NAME'))
+      + requestAttributes.t('WELCOME_MESSAGE', EPRO_LENGTH.toString())
     : '';
   const translatedQuestions = requestAttributes.t('QUESTIONS');
-  const gameQuestions = populateGameQuestions(translatedQuestions);
-  const correctAnswerIndex = Math.floor(Math.random() * (ANSWER_COUNT));
+  const eProQuestions = populateeProQuestions(translatedQuestions);
+  //const correctAnswerIndex = Math.floor(Math.random() * (ANSWER_COUNT));
 
   const roundAnswers = populateRoundAnswers(
-    gameQuestions,
+    eProQuestions,
     0,
-    correctAnswerIndex,
+   // correctAnswerIndex,
     translatedQuestions
   );
   const currentQuestionIndex = 0;
-  const spokenQuestion = Object.keys(translatedQuestions[gameQuestions[currentQuestionIndex]])[0];
+  const spokenQuestion = Object.keys(translatedQuestions[eProQuestions[currentQuestionIndex]])[0];
   let repromptText = requestAttributes.t('TELL_QUESTION_MESSAGE', '1', spokenQuestion);
   for (let i = 0; i < ANSWER_COUNT; i += 1) {
     repromptText += `${i + 1}. ${roundAnswers[i]}. `;
@@ -197,14 +197,14 @@ function startGame(newGame, handlerInput) {
   speechOutput += repromptText;
   const sessionAttributes = {};
 
-  const translatedQuestion = translatedQuestions[gameQuestions[currentQuestionIndex]];
+  const translatedQuestion = translatedQuestions[eProQuestions[currentQuestionIndex]];
 
   Object.assign(sessionAttributes, {
     speechOutput: repromptText,
     repromptText,
     currentQuestionIndex,
     correctAnswerIndex: correctAnswerIndex + 1,
-    questions: gameQuestions,
+    questions: eProQuestions,
     score: 0,
     correctAnswerText: translatedQuestion[Object.keys(translatedQuestion)[0]][0]
   });
@@ -214,16 +214,16 @@ function startGame(newGame, handlerInput) {
   return handlerInput.responseBuilder
     .speak(speechOutput)
     .reprompt(repromptText)
-    .withSimpleCard(requestAttributes.t('GAME_NAME'), repromptText)
+    .withSimpleCard(requestAttributes.t('EPRO_NAME'), repromptText)
     .getResponse();
 }
 
-function helpTheUser(newGame, handlerInput) {
+function helpTheUser(newePro, handlerInput) {
   const requestAttributes = handlerInput.attributesManager.getRequestAttributes();
-  const askMessage = newGame
+  const askMessage = newePro
     ? requestAttributes.t('ASK_MESSAGE_START')
     : requestAttributes.t('REPEAT_QUESTION_MESSAGE') + requestAttributes.t('STOP_MESSAGE');
-  const speechOutput = requestAttributes.t('HELP_MESSAGE', GAME_LENGTH) + askMessage;
+  const speechOutput = requestAttributes.t('HELP_MESSAGE', EPRO_LENGTH) + askMessage;
   const repromptText = requestAttributes.t('HELP_REPROMPT') + askMessage;
 
   return handlerInput.responseBuilder.speak(speechOutput).reprompt(repromptText).getResponse();
@@ -234,7 +234,7 @@ const languageString = {
   en: {
     translation: {
       QUESTIONS: questions.QUESTIONS_EN_US,
-      GAME_NAME: 'Pain Questions',
+      EPRO_NAME: 'Pain Questions',
       HELP_MESSAGE: 'I will ask you %s multiple choice questions. Respond with the number of the answer. For example, say one, two, three, or four. To start a new questionnaire at any time, say, start questionnaire. ',
       REPEAT_QUESTION_MESSAGE: 'To repeat the last question, say, repeat. ',
       ASK_MESSAGE_START: 'Would you like to start answering?',
@@ -245,27 +245,27 @@ const languageString = {
       TRIVIA_UNHANDLED: 'Try saying a number between 1 and %s',
       HELP_UNHANDLED: 'Say yes to continue, or no to end.',
       START_UNHANDLED: 'Say start to start new.',
-      NEW_GAME_MESSAGE: 'Welcome to %s. ',
+      NEW_EPRO_MESSAGE: 'Welcome to %s. ',
       WELCOME_MESSAGE: 'I will ask you %s questions, try to get as many right as you can. Just say the number of the answer. Let\'s begin. ',
       ANSWER_CORRECT_MESSAGE: 'correct. ',
       ANSWER_WRONG_MESSAGE: 'wrong. ',
       CORRECT_ANSWER_MESSAGE: 'The correct answer is %s: %s. ',
       ANSWER_IS_MESSAGE: 'That answer is ',
       TELL_QUESTION_MESSAGE: 'Question %s. %s ',
-      GAME_OVER_MESSAGE: 'You got %s out of %s questions correct. Thank you for playing!',
+      EPRO_OVER_MESSAGE: 'You got %s out of %s questions correct. Thank you for playing!',
       SCORE_IS_MESSAGE: 'Your score is %s. '
     },
   },
   'en-US': {
     translation: {
       QUESTIONS: questions.QUESTIONS_EN_US,
-      GAME_NAME: 'Pain Questions'
+      EPRO_NAME: 'Pain Questions'
     },
   },
   'en-GB': {
     translation: {
       QUESTIONS: questions.QUESTIONS_EN_GB,
-      GAME_NAME: 'Pain Questions'
+      EPRO_NAME: 'Pain Questions'
     },
   },
 };
@@ -296,7 +296,7 @@ const LaunchRequest = {
         && request.intent.name === 'AMAZON.StartOverIntent');
   },
   handle(handlerInput) {
-    return startGame(true, handlerInput);
+    return startePro(true, handlerInput);
   },
 };
 
@@ -310,8 +310,8 @@ const HelpIntent = {
   handle(handlerInput) {
     const sessionAttributes = handlerInput.attributesManager.getSessionAttributes();
 
-    const newGame = !(sessionAttributes.questions);
-    return helpTheUser(newGame, handlerInput);
+    const newePro = !(sessionAttributes.questions);
+    return helpTheUser(newePro, handlerInput);
   },
 };
 
@@ -390,7 +390,7 @@ const YesIntent = {
         .reprompt(sessionAttributes.repromptText)
         .getResponse();
     }
-    return startGame(false, handlerInput);
+    return startePro(false, handlerInput);
   },
 };
 

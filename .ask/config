@@ -23,7 +23,13 @@
           "en-US": {
             "eTag": "ff677ff3daa4edecc7f5b92866c9f71f"
           }
-        }
+        },
+        "lambda": [
+          {
+            "arn": "arn:aws:lambda:us-east-1:826318031639:function:aws-serverless-repository-alexaskillskitnodejstriv-7Z6EFANON4NJ",
+            "revisionId": "79231ef6-4d78-4e70-bb6d-c6f448d8e099"
+          }
+        ]
       }
     }
   }
