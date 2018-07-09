@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "jest-cli": "^23.3.0"
+  }
+}

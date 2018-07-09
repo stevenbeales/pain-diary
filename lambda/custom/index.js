@@ -6,7 +6,10 @@ const questions = require('./questions');
 const i18n = require('i18next');
 const sprintf = require('i18next-sprintf-postprocessor');
 
-module.exports = populateeProQuestions;
+module.exports = {
+  populateeProQuestions,
+  populateRoundAnswers
+}
 
 const ANSWER_COUNT = 5;
 const EPRO_LENGTH = 7;
@@ -181,7 +184,8 @@ function startePro(newePro, handlerInput) {
     : '';
   const translatedQuestions = requestAttributes.t('QUESTIONS');
   const eProQuestions = populateeProQuestions(translatedQuestions);
-  const correctAnswerIndex = Math.floor(Math.random() * (ANSWER_COUNT));
+  //const correctAnswerIndex = Math.floor(Math.random() * (ANSWER_COUNT));
+  const correctAnswerIndex = 0;
 
   const roundAnswers = populateRoundAnswers(
     eProQuestions,
